@@ -36,10 +36,10 @@ options.splitbelow = true
 
 -- search
 -- ================>
+options.hlsearch = false
+options.incsearch = true
 options.ignorecase = true
 options.smartcase = true
-options.incsearch = false
-options.hlsearch = false
 
 
 -- cursor line
@@ -49,7 +49,8 @@ options.cursorline = true
 
 -- others
 -- =======>
-options.scrolloff = 2
+options.scrolloff = 4
+options.updatetime = 100
 options.backspace = 'indent,eol,start'
 -- options.clipboard:append('unnamedplus')
 

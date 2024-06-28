@@ -1,6 +1,6 @@
 
 function setColorScheme()
-	color = color or 'tokyonight'
+	color = color or 'onedark'
 	vim.cmd.colorschem(color)
 end
 
@@ -10,6 +10,6 @@ function setTransparentBg()
 	vim.api.nvim_set_hl(0, 'NormalFloat', {bg = 'none'})
 end
 
--- setColorScheme()
+setColorScheme()
 -- setTransparentBg()
 

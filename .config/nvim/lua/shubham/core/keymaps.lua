@@ -1,5 +1,13 @@
-print('hello from keymaps')
 
+local keymap = vim.keymap
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>p", vim.cmd.Lexplore)
+
+keymap.set("n", "<leader>p", vim.cmd.NvimTreeToggle)
+
+-- tab keymaps
+-- ============>
+keymap.set('n', '<leader>tn', ':tabnew<CR>')
+keymap.set('n', '<leader>tx', ':tabclose<CR>')
+keymap.set('n', '<leader>th', ':tabprevious<CR>')
+keymap.set('n', '<leader>tl', ':tabnext<CR>')
 

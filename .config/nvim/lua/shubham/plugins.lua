@@ -25,21 +25,31 @@ return packer.startup(function(use)
 	use 'wbthomason/packer.nvim'
 	use 'nvim-lua/plenary.nvim'
 
+	-- fuzzy find
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
+	-- ast
+	use 'nvim-treesitter/playground'
 	use {
 		'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate'
 	}
 
-	use 'nvim-treesitter/playground'
+	-- file tree explorers
+	use {
+		'nvim-tree/nvim-tree.lua',
+		requires = {
+			'nvim-tree/nvim-web-devicons', -- optional
+		},
+	}
 
 	-- undo history visualizer
 	use 'mbbill/undotree'
 
+	-- lsp
 	use {
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v3.x',
@@ -59,6 +69,7 @@ return packer.startup(function(use)
 			-- snippets
 			{'L3MON4D3/LuaSnip'},
 			{'saadparwaiz1/cmp_luasnip'},
+			{'rafamadriz/friendly-snippets'}
 		}
 	}
 
