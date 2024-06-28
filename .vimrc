@@ -71,8 +71,7 @@ set smartcase
 set wildmenu 
 set wildmode=list:longest 
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,**/node_modules/**
-set path+=**
-
+set path+=src/**,test/**
 
 
 " PLUGINS ============================================================> {{{
@@ -93,9 +92,6 @@ Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' } " file explorer
 
 " insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
-
-" language support
-Plug 'pangloss/vim-javascript'
 
 call plug#end()
 
@@ -118,14 +114,15 @@ let g:lightline = {
 " }}}
 
 
-
 " KEY MAPPINGS =======================================================> {{{
 
 let mapleader = " "
 
 " tabs
-nnoremap <leader>tp :tabprev<CR>
-nnoremap <leader>tn :tabnext<CR>
+nnoremap <leader>th :tabprev<CR>
+nnoremap <leader>tl :tabnext<CR>
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>tx :tabclose<CR>
 
 " zen mode
 nnoremap <silent> <leader>z :Goyo<CR>
