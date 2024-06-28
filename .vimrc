@@ -91,8 +91,12 @@ call plug#begin('~/.vim/plugged')
 " file tree explorer
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' } " file explorer
 
+" code analysis, linting & others
+Plug 'dense-analysis/ale'
+
 " git
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 " autocompletion
 Plug 'jiangmiao/auto-pairs' " insert or delete brackets, parens, quotes in pair
@@ -102,6 +106,7 @@ Plug 'joshdick/onedark.vim'
 
 " clean interface when you need it
 Plug 'junegunn/goyo.vim'
+Plug 'amix/vim-zenroom2'
 
 " status line
 Plug 'itchyny/lightline.vim'
@@ -117,6 +122,13 @@ call plug#end()
 
 " steady block for insert mode
 let &t_SI = "\e[2 q"
+
+
+" ale configurations
+" ==================>
+" let g:ale_linters = {
+" 			\'typescript': ['eslint', 'ts-lint'],
+"			\}
 
  
 " status line
