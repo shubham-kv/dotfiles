@@ -38,6 +38,7 @@ set splitbelow
 set nowrap
 set nobackup
 set noswapfile
+set autoread
 
 
 " scroll
@@ -62,8 +63,9 @@ set laststatus=2
 " search
 " ======>
 set ignorecase
-set incsearch
 set smartcase
+set incsearch
+set nohlsearch
 
 
 " wild menu & path
@@ -74,9 +76,26 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,**/
 set path+=src/**,test/**
 
 
+" others
+" =======>
+set cursorline
+set updatetime=100
+
+
+
 " PLUGINS ============================================================> {{{
 
 call plug#begin('~/.vim/plugged')
+
+
+" file tree explorer
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' } " file explorer
+
+" git
+Plug 'airblade/vim-gitgutter'
+
+" autocompletion
+Plug 'jiangmiao/auto-pairs' " insert or delete brackets, parens, quotes in pair
 
 " colorschemes
 Plug 'joshdick/onedark.vim'
@@ -87,11 +106,6 @@ Plug 'junegunn/goyo.vim'
 " status line
 Plug 'itchyny/lightline.vim'
 
-" tree explorer
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' } " file explorer
-
-" insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
