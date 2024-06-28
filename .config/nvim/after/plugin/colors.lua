@@ -1,15 +1,15 @@
 
-function setColorScheme()
+function SetColorScheme()
 	color = color or 'onedark'
 	vim.cmd.colorschem(color)
 end
 
-function setTransparentBg()
+function SetTransparentBg()
 	-- for transparent background
 	vim.api.nvim_set_hl(0, 'Normal', {bg = 'none'})
 	vim.api.nvim_set_hl(0, 'NormalFloat', {bg = 'none'})
 end
 
-setColorScheme()
+SetColorScheme()
 -- setTransparentBg()
 

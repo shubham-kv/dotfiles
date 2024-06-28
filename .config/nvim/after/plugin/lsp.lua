@@ -1,37 +1,54 @@
-local status, lsp_zero = pcall(require, 'lsp-zero')
 
-if not status then
-	vim.notify('lsp-zero not found!')
-end
+-- Set up lsp-zero
+-- ================>
+local lsp_zero = require('lsp-zero')
 
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_client, bufnr)
 	lsp_zero.default_keymaps({
 		buffer = bufnr,
 		preserve_mappings = false
 	})
 end)
 
-lsp_zero.setup_servers({
-	'ast_grep',
-	'eslint',
-	'tsserver'
-})
+-- Set up lspconfig
+-- =================>
+local lspconfig = require('lspconfig')
+lspconfig.intelephense.setup({})
 
+
+-- Set up mason
+-- =============>
 require('mason').setup({})
+
 require('mason-lspconfig').setup({
 	ensure_installed = {
-		'tsserver'
+		'eslint',
+		'tsserver',
+		'lua_ls'
 	},
 	handlers = {
 		function(server_name)
-			require('lspconfig')[server_name].setup({})
+			lspconfig[server_name].setup({})
+		end,
+
+		eslint = function()
+			lspconfig.eslint.setup({
+				on_attach = function(client, bufnr)
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						command = "EslintFixAll",
+					})
+				end
+			})
 		end,
 	},
 })
 
 
 -- Set up nvim-cmp
-local cmp = require'cmp'
+-- ================>
+local cmp = require('cmp')
+local cmp_action = lsp_zero.cmp_action()
 
 cmp.setup({
 	snippet = {
@@ -49,7 +66,12 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+		-- Accept currently selected item. Set `select` to `false` to only confirm
+		-- explicitly selected items.
+		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<Tab>'] = cmp_action.tab_complete(),
+		['<S-Tab>'] = cmp_action.select_prev_or_fallback(),
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
@@ -89,26 +111,26 @@ cmp.setup.cmdline(':', {
 	matching = { disallow_symbol_nonprefix_matching = false }
 })
 
--- Set up lspconfig
-local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- we're configuring with mason-lspconfig so this is not needed
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled
 -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
 -- 	capabilities = capabilities
 -- }
 
-lspconfig.tsserver.setup {
-	capabilities = capabilities
-}
+-- lspconfig.tsserver.setup({
+-- 	capabilities = capabilities,
+-- })
 
-lspconfig.eslint.setup({
-	on_attach = function(client, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
-	end
-})
+-- lspconfig.eslint.setup({
+-- 	on_attach = function(client, bufnr)
+-- 		vim.api.nvim_create_autocmd("BufWritePre", {
+-- 			buffer = bufnr,
+-- 			command = "EslintFixAll",
+-- 		})
+-- 	end
+-- })
 
 

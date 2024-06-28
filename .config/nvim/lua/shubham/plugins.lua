@@ -73,7 +73,8 @@ return packer.startup(function(use)
 		}
 	}
 
-	-- git wrapper
+	-- git
+	use 'airblade/vim-gitgutter'
 	use 'tpope/vim-fugitive'
 
 	-- colorschems
