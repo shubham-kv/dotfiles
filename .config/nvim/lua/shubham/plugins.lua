@@ -73,6 +73,9 @@ return packer.startup(function(use)
 		}
 	}
 
+	-- autocompletion
+	use 'jiangmiao/auto-pairs'
+
 	-- git
 	use 'airblade/vim-gitgutter'
 	use 'tpope/vim-fugitive'

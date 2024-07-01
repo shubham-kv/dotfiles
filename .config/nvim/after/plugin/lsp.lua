@@ -1,5 +1,5 @@
 
--- Set up lsp-zero
+-- Set up lsp zero
 -- ================>
 local lsp_zero = require('lsp-zero')
 
@@ -10,10 +10,12 @@ lsp_zero.on_attach(function(_client, bufnr)
 	})
 end)
 
--- Set up lspconfig
--- =================>
-local lspconfig = require('lspconfig')
-lspconfig.intelephense.setup({})
+lsp_zero.set_sign_icons({
+	error = '✘',
+	warn = '▲',
+	hint = '⚑',
+	info = '»'
+})
 
 
 -- Set up mason
@@ -22,18 +24,23 @@ require('mason').setup({})
 
 require('mason-lspconfig').setup({
 	ensure_installed = {
-		'eslint',
 		'tsserver',
+		'eslint',
+		'jsonls',
+		'vimls',
 		'lua_ls'
 	},
+
 	handlers = {
 		function(server_name)
-			lspconfig[server_name].setup({})
+			require('lspconfig')[server_name].setup({})
 		end,
 
 		eslint = function()
-			lspconfig.eslint.setup({
+			require('lspconfig').eslint.setup({
 				on_attach = function(client, bufnr)
+					print('hello from eslint setup')
+
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = bufnr,
 						command = "EslintFixAll",
@@ -90,7 +97,7 @@ cmp.setup({
 		{ name = 'buffer' },
 	})
 })
-require("cmp_git").setup() ]]-- 
+require("cmp_git").setup() ]] --
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
@@ -132,5 +139,3 @@ cmp.setup.cmdline(':', {
 -- 		})
 -- 	end
 -- })
-
-
