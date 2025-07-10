@@ -17,9 +17,9 @@ options.number = true
 
 -- tabs & indentations
 -- ====================>
-options.tabstop = 4
-options.shiftwidth = 4
-options.expandtab = false
+options.tabstop = 2
+options.shiftwidth = 2
+options.expandtab = true
 options.autoindent = true
 options.smartindent = true
 
