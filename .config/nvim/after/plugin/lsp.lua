@@ -24,16 +24,17 @@ require('mason').setup({})
 
 require('mason-lspconfig').setup({
 	ensure_installed = {
-		'tsserver',
 		'eslint',
 		'jsonls',
 		'vimls',
-		'lua_ls'
+		'lua_ls',
+		'clangd'
 	},
 
 	handlers = {
 		function(server_name)
-			require('lspconfig')[server_name].setup({})
+			-- require('lspconfig')[server_name].setup({})
+      lsp_zero.default_setup(server_name)
 		end,
 
 		eslint = function()
