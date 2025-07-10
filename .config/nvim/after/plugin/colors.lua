@@ -1,6 +1,7 @@
 
 function SetColorScheme()
-	color = color or 'onedark'
+	-- color = color or 'onedark'
+	color = color or 'tokyonight'
 	vim.cmd.colorschem(color)
 end
 
