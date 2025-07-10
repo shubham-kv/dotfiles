@@ -73,8 +73,29 @@ return packer.startup(function(use)
 		}
 	}
 
+	-- renderers
+	use({
+		'MeanderingProgrammer/render-markdown.nvim',
+		after = { 'nvim-treesitter' },
+		-- requires = { 'echasnovski/mini.nvim', opt = true }, -- if you use the mini.nvim suite
+		-- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
+		requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+		config = function()
+			require('render-markdown').setup({})
+		end,
+	})
+
 	-- autocompletion
 	use 'jiangmiao/auto-pairs'
+
+  -- Diagnostics
+  use {
+    "chikko80/error-lens.nvim",
+    requires = { "nvim-telescope/telescope.nvim" }, -- optional
+    config = function()
+      require("error-lens").setup()
+    end,
+  }
 
 	-- git
 	use 'airblade/vim-gitgutter'
@@ -89,6 +110,9 @@ return packer.startup(function(use)
 		'nvim-lualine/lualine.nvim',
 		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
 	}
+
+	-- distraction free
+	-- use 'junegunn/goyo.vim' -- doesn't seem good with nvim, status line still stays in :Goyo mode
 
 	if packer_installed then
 		require('packer').sync()
