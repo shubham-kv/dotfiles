@@ -62,6 +62,9 @@ mini_starter.setup({
   },
 })
 
+-- Package mgmt
+require('mason').setup({})
+
 -- }}
 
 -- Theme ------------------------ {{
@@ -157,6 +160,8 @@ local function lsp_setup(server, opts)
 end
 
 lsp_setup('ts_ls', {})
+lsp_setup('lua_ls', {})
+lsp_setup('vimls', {})
 lsp_setup('rust_analyzer', {})
 
 -- }}
