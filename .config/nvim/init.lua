@@ -102,6 +102,7 @@ vim.keymap.set('n', '<leader>p', '<cmd>lua MiniFiles.open()<cr>', {desc = 'Open 
 vim.keymap.set('n', '<leader>fb', '<cmd>Pick buffers<cr>', {desc = 'Search open buffers'})
 vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all files'})
 vim.keymap.set('n', '<leader>fh', '<cmd>Pick help<cr>', {desc = 'Search through help'})
+vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep<cr>', {desc = 'Search through help'})
 
 -- }}
 
@@ -159,9 +160,11 @@ local function lsp_setup(server, opts)
   vim.lsp.enable(server)
 end
 
-lsp_setup('ts_ls', {})
-lsp_setup('lua_ls', {})
 lsp_setup('vimls', {})
+lsp_setup('lua_ls', {
+  settings = { Lua = { diagnostics = { globals = {"vim"} } } }
+})
+lsp_setup('ts_ls', {})
 lsp_setup('rust_analyzer', {})
 
 -- }}
@@ -184,18 +187,24 @@ vim.diagnostic.config({
       return icons[diagnostic.severity] .. " " .. diagnostic.message
     end,
   },
-  signs = true,             -- Show signs in the gutter
+  signs = {
+    text = {
+        [vim.diagnostic.severity.ERROR] = "✘",
+        [vim.diagnostic.severity.WARN] = "▲",
+        [vim.diagnostic.severity.INFO] = "»",
+        [vim.diagnostic.severity.HINT] = "⚑",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+    },
+    numhl = {
+      [vim.diagnostic.severity.WARN] = 'WarningMsg',
+    },
+  },             -- Show signs in the gutter
   underline = true,         -- Underline errors/warnings
   update_in_insert = false, -- Don't update while typing (prevents flicker)
   severity_sort = true,     -- Sort by severity
 })
-
-local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "»" }
-
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
 
 -- }}
 
