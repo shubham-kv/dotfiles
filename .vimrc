@@ -1,86 +1,77 @@
-
 " syntax highlighting
 syntax on
 
 " disable compatibility with vi which can cause unexpected issues
 set nocompatible
 
-
 " file configurations
-" ===================>
+" --------------------
 filetype on " enable type file detection
 filetype plugin on " enable plugins & load plugis for the detected file type
 filetype indent on " load an indent file for the detected file type
 
 " line numbers
-" ============>
+" --------------------
 set number
 set relativenumber
 
-
 " tabs & indentation
-" ==================>
-set shiftwidth=4
-set tabstop=4
+" --------------------
+set shiftwidth=2
+set tabstop=2
 set noexpandtab
 set autoindent
 set smartindent
 
-
 " window splitting
-" ================>
+" --------------------
 set splitright
 set splitbelow
 
-
 " behaviour
-" =========>
+" --------------------
 set nowrap
 set nobackup
 set noswapfile
 set autoread
 
-
 " scroll
-" ======>
+" --------------------
 set scrolloff=2
 
-
 " appearance
-" =========>
+" --------------------
 set signcolumn=yes
-set termguicolors
+" set termguicolors
 set background=dark
 
-
 " status line
-" ===========>
+" --------------------
 set showcmd
 set noshowmode
 set laststatus=2
 
-
 " search
-" ======>
+" --------------------
 set ignorecase
 set smartcase
 set incsearch
 set nohlsearch
 
-
 " wild menu & path
-" ================>
+" --------------------
 set wildmenu 
 set wildmode=list:longest 
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,**/node_modules/**
 set path+=src/**,test/**
 
-
 " others
-" =======>
+" --------------------
 set cursorline
 set updatetime=100
-
+set novisualbell
+set noerrorbells
+set t_vb=
 
 
 " PLUGINS ============================================================> {{{
@@ -92,7 +83,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' } " file explorer
 
 " code analysis, linting & others
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 " git
 Plug 'airblade/vim-gitgutter'
@@ -127,8 +118,8 @@ let &t_SI = "\e[2 q"
 " ale configurations
 " ==================>
 " let g:ale_linters = {
-" 			\'typescript': ['eslint', 'ts-lint'],
-"			\}
+"     \ 'typescript': ['eslint', 'ts-lint'],
+"     \ }
 
  
 " status line
@@ -165,6 +156,6 @@ nnoremap <silent> <leader>p :NERDTreeToggle<CR>
 
 
 " colorscheme
-" ===========>
+" --------------------
 colorscheme onedark
 
