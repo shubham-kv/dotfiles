@@ -96,7 +96,12 @@ vim.keymap.set("n", "<leader>d", function()
 end, { desc = "Show diagnostics under cursor" })
 
 -- mini.files keymaps
-vim.keymap.set('n', '<leader>p', '<cmd>lua MiniFiles.open()<cr>', {desc = 'Open minfile explorer'})
+vim.keymap.set('n', '<leader>p', function()
+  if mini_files.close() then
+    return
+  end
+  mini_files.open()
+end, {desc = 'Toggle mini file explorer'})
 
 -- mini.pick keymaps
 vim.keymap.set('n', '<leader>fb', '<cmd>Pick buffers<cr>', {desc = 'Search open buffers'})
