@@ -1,6 +1,4 @@
-
 local options = vim.opt
-
 
 -- appearance
 -- ===========>
@@ -53,4 +51,3 @@ options.scrolloff = 4
 options.updatetime = 100
 options.backspace = 'indent,eol,start'
 -- options.clipboard:append('unnamedplus')
-
