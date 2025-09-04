@@ -1,2 +1,172 @@
-require("shubham")
+--
+-- One file nvim config using manually managed packages in
+-- '~/.config/nvim/pack/vendor/start'. After cloning the packages run
+-- `helptags ALL` to generate help tags.
+--
+
+-- Editor Optons ---------------- {{
+
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.wrap = false
+
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+vim.o.autoindent = true
+vim.o.smartindent = true
+
+vim.o.smartcase = true
+vim.o.ignorecase = true
+vim.o.hlsearch = false
+
+vim.o.cursorline = true
+vim.o.signcolumn = 'yes'
+
+vim.o.scrolloff = 3
+vim.o.splitright = true
+vim.o.splitbelow = true
+
+-- }}
+
+-- Plugins ------------------------ {{
+
+-- File explorer & navigation
+require('mini.files').setup({})
+require('mini.pick').setup({})
+
+-- Code completion
+require('mini.snippets').setup({})
+require('mini.completion').setup({})
+
+-- }}
+
+-- Theme ------------------------ {{
+
+local theme = 'tokyonight'
+local ok = pcall(vim.cmd.colorscheme, theme)
+
+if not ok then
+  print('Failed to set \'' .. theme .. '\' colorscheme')
+end
+
+-- }}
+
+-- Keymaps ------------------------ {{
+
+vim.g.mapleader = ' '
+
+vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', {desc = 'Save file'})
+vim.keymap.set('n', '<leader>q', '<cmd>quitall<cr>', {desc = 'Close all files & exit'})
+
+vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<cr>', {desc = 'Open new tab'})
+vim.keymap.set('n', '<leader>th', '<cmd>tabprevious<cr>', {desc = 'Open previous tab to the left'})
+vim.keymap.set('n', '<leader>tl', '<cmd>tabnext<cr>', {desc = 'Open next tab to the right'})
+vim.keymap.set('n', '<leader>tx', '<cmd>tabclose<cr>', {desc = 'Close current tab'})
+
+vim.keymap.set("n", "<leader>d", function()
+  vim.diagnostic.open_float(nil, { focus = true })
+end, { desc = "Show diagnostics under cursor" })
+
+-- mini.files keymaps
+vim.keymap.set('n', '<leader>p', '<cmd>lua MiniFiles.open()<cr>', {desc = 'Open minfile explorer'})
+
+-- mini.pick keymaps
+vim.keymap.set('n', '<leader>fb', '<cmd>Pick buffers<cr>', {desc = 'Search open buffers'})
+vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all files'})
+vim.keymap.set('n', '<leader>fh', '<cmd>Pick help<cr>', {desc = 'Search through help'})
+
+-- }}
+
+-- LSP Setup ---------------------- {{
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = {buffer = event.buf}
+
+    -- Display documentation of the symbol under the cursor
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+
+    -- Jump to the definition
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+
+    -- Format current file
+    vim.keymap.set({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+
+    -- Displays a function's signature information
+    vim.keymap.set('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+
+    -- Jump to declaration
+    vim.keymap.set('n', '<leader>ld', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+
+    -- Lists all the implementations for the symbol under the cursor
+    vim.keymap.set('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+
+    -- Jumps to the definition of the type symbol
+    vim.keymap.set('n', '<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+
+    -- Lists all the references
+    vim.keymap.set('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+
+    -- Renames all references to the symbol under the cursor
+    vim.keymap.set('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+
+    -- Selects a code action available at the current cursor position
+    vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  end,
+})
+
+-- Use the "legacy setup" on older Neovim version.
+-- The new api is only available on Neovim v0.11 or greater.
+local function lsp_setup(server, opts)
+  if vim.fn.has('nvim-0.11') == 0 then
+    require('lspconfig')[server].setup(opts)
+    return
+  end
+
+  if not vim.tbl_isempty(opts) then
+    vim.lsp.config(server, opts)
+  end
+
+  vim.lsp.enable(server)
+end
+
+lsp_setup('ts_ls', {})
+lsp_setup('rust_analyzer', {})
+
+-- }}
+
+-- Configurations ----------------- {{
+
+-- Diagnostics
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '',    -- Customize prefix (●, →, » etc.)
+    spacing = 2,    -- Space between text and virtual text
+    severity = nil, -- Show all severities (can set to vim.diagnostic.severity.ERROR if needed)
+    format = function(diagnostic)
+      local icons = {
+        [vim.diagnostic.severity.ERROR] = "✘",
+        [vim.diagnostic.severity.WARN] = "▲",
+        [vim.diagnostic.severity.INFO] = "»",
+        [vim.diagnostic.severity.HINT] = "⚑",
+      }
+      return icons[diagnostic.severity] .. " " .. diagnostic.message
+    end,
+  },
+  signs = true,             -- Show signs in the gutter
+  underline = true,         -- Underline errors/warnings
+  update_in_insert = false, -- Don't update while typing (prevents flicker)
+  severity_sort = true,     -- Sort by severity
+})
+
+local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "»" }
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
+-- }}
 
