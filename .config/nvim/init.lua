@@ -32,12 +32,35 @@ vim.o.splitbelow = true
 -- Plugins ------------------------ {{
 
 -- File explorer & navigation
-require('mini.files').setup({})
+local mini_files = require('mini.files')
+mini_files.setup({
+  options = {
+    permanent_delete = false
+  }
+})
+
 require('mini.pick').setup({})
 
 -- Code completion
 require('mini.snippets').setup({})
 require('mini.completion').setup({})
+require('mini.pairs').setup({})
+
+-- Start screen
+local mini_starter = require('mini.starter')
+mini_starter.setup({
+  evaluate_single = true,
+  items = {
+    mini_starter.sections.recent_files(7, true),
+    mini_starter.sections.builtin_actions(),
+  },
+  content_hooks = {
+    mini_starter.gen_hook.adding_bullet(),
+    mini_starter.gen_hook.aligning('center', 'center'),
+    mini_starter.gen_hook.indexing('all', { 'Builtin actions' }),
+    mini_starter.gen_hook.padding(3, 0),
+  },
+})
 
 -- }}
 
@@ -56,6 +79,7 @@ end
 
 vim.g.mapleader = ' '
 
+vim.keymap.set('n', '<leader>s', '<cmd>source %<cr>', {desc = 'Read Vim or Ex commands from current file'})
 vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', {desc = 'Save file'})
 vim.keymap.set('n', '<leader>q', '<cmd>quitall<cr>', {desc = 'Close all files & exit'})
 
