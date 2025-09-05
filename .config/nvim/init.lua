@@ -170,6 +170,7 @@ lsp_setup('lua_ls', {
   settings = { Lua = { diagnostics = { globals = {"vim"} } } }
 })
 lsp_setup('ts_ls', {})
+lsp_setup('clangd', {})
 lsp_setup('rust_analyzer', {})
 
 -- }}
