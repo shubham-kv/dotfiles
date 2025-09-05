@@ -84,7 +84,7 @@ vim.g.mapleader = ' '
 
 vim.keymap.set('n', '<leader>s', '<cmd>source %<cr>', {desc = 'Read Vim or Ex commands from current file'})
 vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', {desc = 'Save file'})
-vim.keymap.set('n', '<leader>q', '<cmd>quitall<cr>', {desc = 'Close all files & exit'})
+vim.keymap.set('n', '<leader>q', '<cmd>quit<cr>', {desc = 'Close current window'})
 
 vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<cr>', {desc = 'Open new tab'})
 vim.keymap.set('n', '<leader>th', '<cmd>tabprevious<cr>', {desc = 'Open previous tab to the left'})
