@@ -1,7 +1,16 @@
 --
+-- # NVIM Config
+--
 -- One file nvim config using manually managed packages in
 -- '~/.config/nvim/pack/vendor/start'. After cloning the packages run
 -- `helptags ALL` to generate help tags.
+--
+-- ## Packages Used
+--
+-- 1. nvim-lspconfig
+-- 1. mini.nvim
+-- 1. tokyonight.nvim
+-- 1. mason.nvim
 --
 
 -- Editor Optons ---------------- {{
