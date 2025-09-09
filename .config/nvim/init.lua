@@ -7,8 +7,10 @@
 --
 -- ## Packages Used
 --
--- 1. nvim-lspconfig
 -- 1. mini.nvim
+-- 1. nvim-lspconfig
+-- 1. nvim-web-devicons
+-- 1. nvim-tree
 -- 1. tokyonight.nvim
 -- 1. mason.nvim
 --
@@ -36,16 +38,30 @@ vim.o.scrolloff = 3
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+-- disable netrw at the very start
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- }}
 
 -- Plugins ------------------------ {{
 
 -- File explorer & navigation
-local mini_files = require('mini.files')
-mini_files.setup({
-  options = {
-    permanent_delete = false
-  }
+require('nvim-tree').setup({
+  sort = {
+    sorter = 'case_sensitive',
+  },
+  view = {
+    width = 35,
+    adaptive_size = true
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = false,
+    git_ignored = false
+  },
 })
 
 require('mini.pick').setup({})
@@ -104,13 +120,7 @@ vim.keymap.set("n", "<leader>d", function()
   vim.diagnostic.open_float(nil, { focus = true })
 end, { desc = "Show diagnostics under cursor" })
 
--- mini.files keymaps
-vim.keymap.set('n', '<leader>p', function()
-  if mini_files.close() then
-    return
-  end
-  mini_files.open()
-end, {desc = 'Toggle mini file explorer'})
+vim.keymap.set('n', '<leader>p', vim.cmd.NvimTreeToggle)
 
 -- mini.pick keymaps
 vim.keymap.set('n', '<leader>fb', '<cmd>Pick buffers<cr>', {desc = 'Search open buffers'})
