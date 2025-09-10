@@ -1,3 +1,12 @@
+"
+" # Vim Config
+"
+" Install vim-plug
+" > curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"
+
+" Edior Options ---------------- {{{
+
 " syntax highlighting
 syntax on
 
@@ -73,8 +82,10 @@ set novisualbell
 set noerrorbells
 set t_vb=
 
+" }}}
 
-" PLUGINS ============================================================> {{{
+
+" Plugins ---------------------- {{{
 
 call plug#begin('~/.vim/plugged')
 
@@ -108,22 +119,19 @@ call plug#end()
 " }}}
 
 
-
-" PLUGIN CONFIGURATIONS ==============================================> {{{
+" Configs ---------------------- {{{
 
 " steady block for insert mode
 let &t_SI = "\e[2 q"
 
-
 " ale configurations
-" ==================>
+" -------------------
 " let g:ale_linters = {
 "     \ 'typescript': ['eslint', 'ts-lint'],
 "     \ }
-
  
 " status line
-" ===========>
+" ------------
 let g:lightline = {
 			\ 'colorscheme': 'onedark',
 			\ }
@@ -131,7 +139,14 @@ let g:lightline = {
 " }}}
 
 
-" KEY MAPPINGS =======================================================> {{{
+" Theme ------------------------ {{{
+
+colorscheme onedark
+
+" }}}
+
+
+" Keymaps ---------------------- {{{
 
 let mapleader = " "
 
@@ -152,10 +167,4 @@ nnoremap <silent> <leader>p :NERDTreeToggle<CR>
 " nnoremap <leader>nestmodule :-1read $HOME/.vim/snippets/nestjs/module-snippet.ts<CR>6j2w
 
 " }}}
-
-
-
-" colorscheme
-" --------------------
-colorscheme onedark
 
