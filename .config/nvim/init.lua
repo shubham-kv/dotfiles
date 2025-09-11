@@ -87,14 +87,18 @@ safe_require('mini.snippets')
 safe_require('mini.completion')
 safe_require('mini.pairs')
 
--- Syntax highlight
+-- Syntax highlighting
 safe_require('nvim-treesitter.configs', {
   auto_install = true,
   highlight = { enable = true },
   indent = { enable = true },
 })
 
--- Start screen
+-- Git
+safe_require('mini.git')
+
+-- Appearance
+safe_require('mini.statusline')
 safe_require('mini.starter', function(starter)
   starter.setup({
     evaluate_single = true,
@@ -105,7 +109,6 @@ safe_require('mini.starter', function(starter)
     content_hooks = {
       starter.gen_hook.adding_bullet(),
       starter.gen_hook.aligning('center', 'center'),
-      -- starter.gen_hook.indexing('all', { 'Builtin actions' }),
       starter.gen_hook.padding(3, 0),
     },
   })
@@ -150,7 +153,7 @@ vim.keymap.set('n', '<leader>p', vim.cmd.NvimTreeToggle)
 vim.keymap.set('n', '<leader>fb', '<cmd>Pick buffers<cr>', {desc = 'Search open buffers'})
 vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all files'})
 vim.keymap.set('n', '<leader>fh', '<cmd>Pick help<cr>', {desc = 'Search through help'})
-vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep<cr>', {desc = 'Search through help'})
+vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep_live<cr>', {desc = 'Grep through files'})
 
 -- }}
 
