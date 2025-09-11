@@ -47,8 +47,23 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Plugins ------------------------ {{
 
+local function safe_require(name, opts)
+  local ok, mod = pcall(require, name)
+
+  if not ok then
+    vim.api.nvim_err_writeln("Failed to load module '" .. name .. "'")
+    return
+  end
+
+  if type(opts) == "function" then
+    opts(mod)
+  elseif type(mod.setup) == "function" then
+    mod.setup(opts or {})
+  end
+end
+
 -- File explorer & navigation
-require('nvim-tree').setup({
+safe_require('nvim-tree', {
   sort = {
     sorter = 'case_sensitive',
   },
@@ -65,38 +80,39 @@ require('nvim-tree').setup({
   },
 })
 
-require('mini.pick').setup({})
+safe_require('mini.pick')
 
 -- Code completion
-require('mini.snippets').setup({})
-require('mini.completion').setup({})
-require('mini.pairs').setup({})
+safe_require('mini.snippets')
+safe_require('mini.completion')
+safe_require('mini.pairs')
 
 -- Syntax highlight
-require('nvim-treesitter.configs').setup({
+safe_require('nvim-treesitter.configs', {
   auto_install = true,
   highlight = { enable = true },
   indent = { enable = true },
 })
 
 -- Start screen
-local mini_starter = require('mini.starter')
-mini_starter.setup({
-  evaluate_single = true,
-  items = {
-    mini_starter.sections.recent_files(7, true),
-    mini_starter.sections.builtin_actions(),
-  },
-  content_hooks = {
-    mini_starter.gen_hook.adding_bullet(),
-    mini_starter.gen_hook.aligning('center', 'center'),
-    -- mini_starter.gen_hook.indexing('all', { 'Builtin actions' }),
-    mini_starter.gen_hook.padding(3, 0),
-  },
-})
+safe_require('mini.starter', function(starter)
+  starter.setup({
+    evaluate_single = true,
+    items = {
+      starter.sections.recent_files(7, true),
+      starter.sections.builtin_actions(),
+    },
+    content_hooks = {
+      starter.gen_hook.adding_bullet(),
+      starter.gen_hook.aligning('center', 'center'),
+      -- starter.gen_hook.indexing('all', { 'Builtin actions' }),
+      starter.gen_hook.padding(3, 0),
+    },
+  })
+end)
 
 -- Package mgmt
-require('mason').setup({})
+safe_require('mason')
 
 -- }}
 
@@ -181,7 +197,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- The new api is only available on Neovim v0.11 or greater.
 local function lsp_setup(server, opts)
   if vim.fn.has('nvim-0.11') == 0 then
-    require('lspconfig')[server].setup(opts)
+    safe_require('lspconfig', function(lspconfig)
+      lspconfig[server].setup(opts)
+    end)
     return
   end
 
