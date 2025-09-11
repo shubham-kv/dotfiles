@@ -9,8 +9,9 @@
 --
 -- 1. mini.nvim
 -- 1. nvim-lspconfig
--- 1. nvim-web-devicons
 -- 1. nvim-tree
+-- 1. nvim-treesitter
+-- 1. nvim-web-devicons
 -- 1. tokyonight.nvim
 -- 1. mason.nvim
 --
@@ -34,7 +35,7 @@ vim.o.hlsearch = false
 vim.o.cursorline = true
 vim.o.signcolumn = 'yes'
 
-vim.o.scrolloff = 3
+vim.o.scrolloff = 2
 vim.o.splitright = true
 vim.o.splitbelow = true
 
@@ -52,7 +53,7 @@ require('nvim-tree').setup({
     sorter = 'case_sensitive',
   },
   view = {
-    width = 35,
+    width = 40,
     adaptive_size = true
   },
   renderer = {
@@ -71,6 +72,13 @@ require('mini.snippets').setup({})
 require('mini.completion').setup({})
 require('mini.pairs').setup({})
 
+-- Syntax highlight
+require('nvim-treesitter.configs').setup({
+  auto_install = true,
+  highlight = { enable = true },
+  indent = { enable = true },
+})
+
 -- Start screen
 local mini_starter = require('mini.starter')
 mini_starter.setup({
@@ -82,7 +90,7 @@ mini_starter.setup({
   content_hooks = {
     mini_starter.gen_hook.adding_bullet(),
     mini_starter.gen_hook.aligning('center', 'center'),
-    mini_starter.gen_hook.indexing('all', { 'Builtin actions' }),
+    -- mini_starter.gen_hook.indexing('all', { 'Builtin actions' }),
     mini_starter.gen_hook.padding(3, 0),
   },
 })
@@ -190,7 +198,7 @@ lsp_setup('lua_ls', {
 })
 lsp_setup('ts_ls', {})
 lsp_setup('clangd', {})
-lsp_setup('rust_analyzer', {})
+-- lsp_setup('rust_analyzer', {})
 
 -- }}
 
