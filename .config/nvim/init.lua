@@ -236,6 +236,7 @@ lsp_setup('lua_ls', {
 })
 lsp_setup('ts_ls', {})
 lsp_setup('clangd', {})
+lsp_setup('marksman', {})
 -- lsp_setup('rust_analyzer', {})
 
 -- }}
