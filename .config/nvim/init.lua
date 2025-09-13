@@ -73,6 +73,10 @@ safe_require('nvim-tree', {
     width = 40,
     adaptive_size = true
   },
+  update_focused_file = {
+    enable = true,
+    update_root = false,
+  },
   renderer = {
     group_empty = true,
   },
