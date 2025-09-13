@@ -11,6 +11,8 @@
 -- 1. nvim-lspconfig
 -- 1. nvim-tree
 -- 1. nvim-treesitter
+-- 1. nvimtools/none-ls.nvim
+-- 1. nvim-lua/plenary.nvim
 -- 1. nvim-web-devicons
 -- 1. tokyonight.nvim
 -- 1. mason.nvim
@@ -103,6 +105,18 @@ safe_require('mini.diff', {
   }
 })
 
+-- Diagnostics, Code actions, etc.
+safe_require('null-ls', function(null_ls)
+  null_ls.setup({
+    sources = {
+      null_ls.builtins.formatting.prettierd
+    },
+  })
+end)
+
+-- LSPs, Formatters, etc. installer
+safe_require('mason')
+
 -- Appearance
 safe_require('mini.statusline')
 safe_require('mini.starter', function(starter)
@@ -119,9 +133,6 @@ safe_require('mini.starter', function(starter)
     },
   })
 end)
-
--- Package mgmt
-safe_require('mason')
 
 -- }}
 
