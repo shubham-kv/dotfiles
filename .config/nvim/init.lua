@@ -96,6 +96,12 @@ safe_require('nvim-treesitter.configs', {
 
 -- Git
 safe_require('mini.git')
+safe_require('mini.diff', {
+  view = {
+    style = 'sign',
+    signs = { add = '+', change = '~', delete = '-' },
+  }
+})
 
 -- Appearance
 safe_require('mini.statusline')
