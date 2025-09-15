@@ -1,21 +1,20 @@
 --
 -- # NVIM Config
 --
--- One file nvim config using manually managed packages in
--- '~/.config/nvim/pack/vendor/start'. After cloning the packages run
--- `helptags ALL` to generate help tags.
+-- Plugins managed with `lewis6991/pckr.nvim`. After cloning/installing the
+-- packages run `helptags ALL` to generate help tags.
 --
 -- ## Packages Used
 --
--- 1. mini.nvim
--- 1. nvim-lspconfig
--- 1. nvim-tree
--- 1. nvim-treesitter
--- 1. nvimtools/none-ls.nvim
+-- 1. nvim-mini/mini.nvim
 -- 1. nvim-lua/plenary.nvim
--- 1. nvim-web-devicons
--- 1. tokyonight.nvim
--- 1. mason.nvim
+-- 1. nvim-tree/nvim-tree.lua
+-- 1. nvim-treesitter/nvim-treesitter
+-- 1. neovim/nvim-lspconfig
+-- 1. mason-org/mason.nvim
+-- 1. nvimtools/none-ls.nvim
+-- 1. nvim-tree/nvim-web-devicons
+-- 1. folke/tokyonight.nvim
 --
 
 -- Editor Optons ---------------- {{
@@ -64,77 +63,131 @@ local function safe_require(name, opts)
   end
 end
 
--- File explorer & navigation
-safe_require('nvim-tree', {
-  sort = {
-    sorter = 'case_sensitive',
-  },
-  view = {
-    width = 40,
-    adaptive_size = true
-  },
-  update_focused_file = {
-    enable = true,
-    update_root = false,
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = false,
-    git_ignored = false
-  },
-})
+local function bootstrap_pckr()
+  local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
 
-safe_require('mini.pick')
+  if not (vim.uv or vim.loop).fs_stat(pckr_path) then
+    vim.fn.system({
+      'git',
+      'clone',
+      "--filter=blob:none",
+      'https://github.com/lewis6991/pckr.nvim',
+      pckr_path
+    })
+  end
 
--- Code completion
-safe_require('mini.snippets')
-safe_require('mini.completion')
-safe_require('mini.pairs')
+  vim.opt.rtp:prepend(pckr_path)
+end
 
--- Syntax highlighting
-safe_require('nvim-treesitter.configs', {
-  auto_install = true,
-  highlight = { enable = true },
-  indent = { enable = true },
-})
+bootstrap_pckr()
 
--- Git
-safe_require('mini.git')
-safe_require('mini.diff', {
-  view = {
-    style = 'sign',
-    signs = { add = '+', change = '~', delete = '-' },
-  }
-})
+safe_require('pckr', function(pckr)
+  pckr.add({
+    'nvim-lua/plenary.nvim';
+    'nvim-tree/nvim-web-devicons';
 
--- Diagnostics, Code actions, etc.
-safe_require('null-ls', function(null_ls)
-  null_ls.setup({
-    sources = {
-      null_ls.builtins.formatting.prettierd
-    },
-  })
-end)
+    -- Colorschemes
+    'folke/tokyonight.nvim';
 
--- LSPs, Formatters, etc. installer
-safe_require('mason')
+    -- File explorer & navigation
+    { 'nvim-tree/nvim-tree.lua',
+      requires = { 'nvim-tree/nvim-web-devicons' },
+      config = function()
+        safe_require('nvim-tree', {
+          sort = {
+            sorter = 'case_sensitive',
+          },
+          view = {
+            width = 40,
+            adaptive_size = true
+          },
+          update_focused_file = {
+            enable = true,
+            update_root = false,
+          },
+          renderer = {
+            group_empty = true,
+          },
+          filters = {
+            dotfiles = false,
+            git_ignored = false
+          },
+        })
+      end
+    };
 
--- Appearance
-safe_require('mini.statusline')
-safe_require('mini.starter', function(starter)
-  starter.setup({
-    evaluate_single = true,
-    items = {
-      starter.sections.recent_files(7, true),
-      starter.sections.builtin_actions(),
-    },
-    content_hooks = {
-      starter.gen_hook.adding_bullet(),
-      starter.gen_hook.aligning('center', 'center'),
-      starter.gen_hook.padding(3, 0),
-    },
+    { 'nvim-mini/mini.nvim',
+      config = function()
+        -- Quick navigation
+        safe_require('mini.pick')
+
+        -- Code completion
+        safe_require('mini.snippets')
+        safe_require('mini.completion')
+        safe_require('mini.pairs')
+
+        -- Git
+        safe_require('mini.git')
+        safe_require('mini.diff', {
+          view = {
+            style = 'sign',
+            signs = { add = '+', change = '~', delete = '-' },
+          }
+        })
+
+        -- Appearance
+        safe_require('mini.statusline')
+        safe_require('mini.starter', function(starter)
+          starter.setup({
+            evaluate_single = true,
+            items = {
+              starter.sections.recent_files(7, true),
+              starter.sections.builtin_actions(),
+            },
+            content_hooks = {
+              starter.gen_hook.adding_bullet(),
+              starter.gen_hook.aligning('center', 'center'),
+              starter.gen_hook.padding(3, 0),
+            },
+          })
+        end)
+      end
+    };
+
+    -- Syntax highlighting
+    { 'nvim-treesitter/nvim-treesitter',
+      run = ':TSUpdate',
+      config = function()
+        safe_require('nvim-treesitter.configs', {
+          auto_install = true,
+          highlight = { enable = true },
+          indent = { enable = true },
+        })
+      end
+    };
+
+    -- LSPs, Formatting, etc.
+    'neovim/nvim-lspconfig';
+
+    { 'mason-org/mason.nvim',
+      config = function()
+        safe_require('mason')
+      end
+    };
+
+    -- Diagnostics, Code actions, etc.
+    { 'nvimtools/none-ls.nvim',
+      requires = { "nvim-lua/plenary.nvim" },
+      config = function()
+        safe_require('null-ls', function(null_ls)
+          null_ls.setup({
+            sources = {
+              null_ls.builtins.formatting.prettierd
+            },
+          })
+        end)
+      end
+    }
   })
 end)
 
