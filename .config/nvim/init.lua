@@ -292,8 +292,12 @@ lsp_setup("vimls", {})
 lsp_setup("lua_ls", {
   settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
-lsp_setup("ts_ls", {})
 lsp_setup("clangd", {})
+
+lsp_setup("html", {})
+lsp_setup("cssls", {})
+lsp_setup("ts_ls", {})
+
 lsp_setup("marksman", {})
 -- lsp_setup('rust_analyzer', {})
 
