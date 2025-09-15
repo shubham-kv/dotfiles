@@ -88,6 +88,14 @@ safe_require("pckr", function(pckr)
 
     -- Colorschemes
     "folke/tokyonight.nvim",
+    {
+      "navarasu/onedark.nvim",
+      config = function()
+        safe_require("onedark", function(onedark)
+          onedark.setup({ style = "warm" })
+        end)
+      end,
+    },
 
     -- File explorer & navigation
     {
