@@ -1,3 +1,5 @@
+" vim:fileencoding=utf-8:foldmethod=marker:foldmarker={{{,}}}
+
 "
 " # Vim Config
 "
@@ -149,6 +151,10 @@ colorscheme onedark
 " Keymaps ---------------------- {{{
 
 let mapleader = " "
+
+nnoremap <leader>s :source %<CR>
+nnoremap <leader>w :write<CR>
+nnoremap <leader>q :quit<CR>
 
 " tabs
 nnoremap <leader>th :tabprev<CR>
