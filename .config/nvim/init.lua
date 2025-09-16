@@ -176,8 +176,19 @@ safe_require("pckr", function(pckr)
         safe_require("null-ls", function(null_ls)
           null_ls.setup({
             sources = {
-              null_ls.builtins.formatting.prettierd,
+              null_ls.builtins.diagnostics.markdownlint,
+
+              -- write-good for weasel words/passive voice
+              null_ls.builtins.diagnostics.write_good.with({
+                filetypes = { "markdown", "text" },
+                extra_args = { "--no-passive" },
+              }),
+
               null_ls.builtins.formatting.stylua,
+              null_ls.builtins.formatting.markdownlint,
+              null_ls.builtins.formatting.prettierd.with({
+                disabled_filetypes = { "markdown" },
+              }),
             },
           })
         end)
