@@ -194,6 +194,10 @@ safe_require("pckr", function(pckr)
         end)
       end,
     },
+
+    -- Distraction free
+    "folke/zen-mode.nvim",
+    "folke/twilight.nvim"
   })
 end)
 
@@ -229,11 +233,12 @@ end, { desc = "Show diagnostics under cursor" })
 
 vim.keymap.set("n", "<leader>p", vim.cmd.NvimTreeToggle)
 
--- mini.pick keymaps
 vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>", { desc = "Search open buffers" })
 vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", { desc = "Search all files" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", { desc = "Search through help" })
 vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Grep through files" })
+
+vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Toggle zenmode" })
 
 -- }}
 
