@@ -195,6 +195,10 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>s", "<cmd>source %<cr>", { desc = "Read Vim or Ex commands from current file" })
 vim.keymap.set("n", "<leader>w", "<cmd>write<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", "<cmd>quit<cr>", { desc = "Close current window" })
+vim.keymap.set("n", "<leader>nw", function()
+  local date = vim.fn.system('date -R'):gsub("\n$", "")
+  vim.api.nvim_put({date}, 'c', false, true)
+end, { desc = "Paste timestamp" })
 
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "Open new tab" })
 vim.keymap.set("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Open previous tab to the left" })
