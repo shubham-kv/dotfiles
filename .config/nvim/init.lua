@@ -128,20 +128,6 @@ safe_require("pckr", function(pckr)
 
         -- Appearance
         safe_require("mini.statusline")
-        safe_require("mini.starter", function(starter)
-          starter.setup({
-            evaluate_single = true,
-            items = {
-              starter.sections.recent_files(7, true),
-              starter.sections.builtin_actions(),
-            },
-            content_hooks = {
-              starter.gen_hook.adding_bullet(),
-              starter.gen_hook.aligning("center", "center"),
-              starter.gen_hook.padding(3, 0),
-            },
-          })
-        end)
       end,
     },
 
@@ -197,7 +183,6 @@ safe_require("pckr", function(pckr)
 
     -- Distraction free
     "folke/zen-mode.nvim",
-    "folke/twilight.nvim"
   })
 end)
 
