@@ -6,17 +6,6 @@
 -- Plugins managed with `lewis6991/pckr.nvim`. After cloning/installing the
 -- packages run `helptags ALL` to generate help tags.
 --
--- ## Packages Used
---
--- 1. nvim-mini/mini.nvim
--- 1. nvim-lua/plenary.nvim
--- 1. nvim-tree/nvim-tree.lua
--- 1. nvim-treesitter/nvim-treesitter
--- 1. neovim/nvim-lspconfig
--- 1. mason-org/mason.nvim
--- 1. nvimtools/none-ls.nvim
--- 1. nvim-tree/nvim-web-devicons
--- 1. folke/tokyonight.nvim
 --
 
 -- Editor Optons ---------------- {{
