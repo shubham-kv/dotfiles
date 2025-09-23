@@ -292,6 +292,7 @@ lsp_setup("clangd", {})
 lsp_setup("html", {})
 lsp_setup("cssls", {})
 lsp_setup("ts_ls", {})
+lsp_setup("jsonls", {})
 
 lsp_setup("marksman", {})
 -- lsp_setup('rust_analyzer', {})
