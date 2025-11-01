@@ -287,6 +287,25 @@ lsp_setup("cssls", {})
 lsp_setup("ts_ls", {})
 lsp_setup("jsonls", {})
 
+lsp_setup("pylsp", {
+  settings = {
+    pylsp = {
+      configurationSources = { "pycodestyle" },
+      plugins = {
+        -- Disable legacy linters
+        pycodestyle = { enabled = false },
+        pyflakes = { enabled = false },
+        mccabe = { enabled = false },
+        -- Enable formatters
+        black = { enabled = true },
+        isort = { enabled = true },
+        -- Optional: enable Ruff as linter (via external plugin)
+        ruff = { enabled = true },
+      },
+    },
+  },
+})
+
 lsp_setup("marksman", {})
 -- lsp_setup('rust_analyzer', {})
 
