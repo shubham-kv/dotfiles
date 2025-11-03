@@ -166,7 +166,6 @@ safe_require("pckr", function(pckr)
               }),
 
               -- Python tools
-              null_ls.builtins.diagnostics.ruff,
               null_ls.builtins.formatting.black,
               null_ls.builtins.formatting.isort,
             },
@@ -293,21 +292,7 @@ lsp_setup("ts_ls", {})
 lsp_setup("jsonls", {})
 
 -- Python
-lsp_setup("pylsp", {
-  settings = {
-    pylsp = {
-      configurationSources = { "pycodestyle" },
-      plugins = {
-        -- Disable legacy linters
-        pycodestyle = { enabled = false },
-        pyflakes = { enabled = false },
-        mccabe = { enabled = false },
-      },
-    },
-  },
-})
-
--- Python Strict type checking
+lsp_setup("ruff", {})
 lsp_setup("pyright", {
   settings = {
     python = {
