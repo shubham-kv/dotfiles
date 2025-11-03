@@ -164,6 +164,11 @@ safe_require("pckr", function(pckr)
               null_ls.builtins.formatting.prettierd.with({
                 disabled_filetypes = { "markdown" },
               }),
+
+              -- Python tools
+              null_ls.builtins.diagnostics.ruff,
+              null_ls.builtins.formatting.black,
+              null_ls.builtins.formatting.isort,
             },
           })
         end)
@@ -287,6 +292,7 @@ lsp_setup("cssls", {})
 lsp_setup("ts_ls", {})
 lsp_setup("jsonls", {})
 
+-- Python
 lsp_setup("pylsp", {
   settings = {
     pylsp = {
@@ -296,11 +302,18 @@ lsp_setup("pylsp", {
         pycodestyle = { enabled = false },
         pyflakes = { enabled = false },
         mccabe = { enabled = false },
-        -- Enable formatters
-        black = { enabled = true },
-        isort = { enabled = true },
-        -- Optional: enable Ruff as linter (via external plugin)
-        ruff = { enabled = true },
+      },
+    },
+  },
+})
+
+-- Python Strict type checking
+lsp_setup("pyright", {
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "strict", -- or "basic"
+        autoImportCompletions = true,
       },
     },
   },
