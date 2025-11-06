@@ -88,9 +88,29 @@ safe_require("pckr", function(pckr)
         safe_require("nvim-tree", {
           renderer = { group_empty = true },
           sort = { sorter = "case_sensitive" },
-          view = { width = 40, adaptive_size = true },
           filters = { dotfiles = false, git_ignored = false },
           update_focused_file = { enable = true, update_root = false },
+          view = { width = 40, adaptive_size = true },
+          on_attach = function(bufnr)
+            local api = require("nvim-tree.api")
+
+            local function opts(desc)
+              return {
+                desc = "nvim-tree: " .. desc,
+                buffer = bufnr,
+                noremap = true,
+                silent = true,
+                nowait = true,
+              }
+            end
+
+            -- Keep defaults
+            api.config.mappings.default_on_attach(bufnr)
+
+            -- Override some keymaps
+            vim.keymap.set("n", "d", api.fs.trash, opts("Trash"))
+            vim.keymap.del("n", "D", { buffer = bufnr })
+          end,
         })
       end,
     },
@@ -200,8 +220,8 @@ vim.keymap.set("n", "<leader>s", "<cmd>source %<cr>", { desc = "Read Vim or Ex c
 vim.keymap.set("n", "<leader>w", "<cmd>write<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", "<cmd>quit<cr>", { desc = "Close current window" })
 vim.keymap.set("n", "<leader>nw", function()
-  local date = vim.fn.system('date -R'):gsub("\n$", "")
-  vim.api.nvim_put({date}, 'c', false, true)
+  local date = vim.fn.system("date -R"):gsub("\n$", "")
+  vim.api.nvim_put({ date }, "c", false, true)
 end, { desc = "Paste timestamp" })
 
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "Open new tab" })
